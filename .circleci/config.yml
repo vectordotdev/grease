@@ -1,0 +1,28 @@
+---
+version: 2
+jobs:
+  build:
+    docker:
+      - image: timberio/grease-builder:1.0.0
+    working_directory: /go/src/github.com/timberio/grease
+    environment:
+      TEST_RESULTS: /tmp/test-results
+    steps:
+      - checkout
+      - run:
+          name: Setup Test Results Directory
+          command: |
+            mkdir -p ${TEST_RESULTS}
+      - run:
+          name: Run Tests
+          command: |
+            trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
+            make test | tee ${TEST_RESULTS}/go-test.out
+      - store_test_results:
+          path: /tmp/test-results
+
+deployment:
+  release:
+    tag: /v.*/
+    commands:
+      - echo "Initiating tagged release workaround for CircleCI 2.0"
