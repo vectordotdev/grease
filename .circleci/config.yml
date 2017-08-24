@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: timberio/grease-builder:1.0.0
+      - image: timberio/grease-builder:1.1.0
     working_directory: /go/src/github.com/timberio/grease
     environment:
       TEST_RESULTS: /tmp/test-results
@@ -20,9 +20,28 @@ jobs:
             make test | tee ${TEST_RESULTS}/go-test.out
       - store_test_results:
           path: /tmp/test-results
-
-deployment:
   release:
-    tag: /v.*/
-    commands:
-      - echo "Initiating tagged release workaround for CircleCI 2.0"
+    docker:
+      - image: timberio/grease-builder:1.1.0
+    working_directory: /go/src/github.com/timberio/grease
+    steps:
+      - checkout
+      - run:
+          name: Publish Release
+          command: |
+            make release
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
+      - release:
+          filters:
+            tags:
+              only: /v.*/
+          requires:
+            - build

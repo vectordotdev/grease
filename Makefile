@@ -62,6 +62,14 @@ dist: clean-dist build
 		(cd $(build_dir)/$$f && tar -czf $(dist_dir)/$$f.tar.gz *); \
 	done
 
+.PHONY: release
+release: dist
+	@tag=v$(version); \
+	commit=$(git rev-list -n 1 $$tag); \
+	name=$$(git show -s $$tag --pretty=tformat:%N | sed -e '4q;d'); \
+	changelog=$$(git show -s $$tag --pretty=tformat:%N | sed -e '1,5d'); \
+	grease create-release --name $$name --notes $$changelog $(github_repo) $$tag $$commit
+
 .PHONY: get-tools
 get-tools:
 	go get github.com/golang/dep/cmd/dep
