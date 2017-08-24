@@ -76,7 +76,7 @@ arguments:
 
 The final flag you need to know about is `--github-token`. A GitHub personal
 access token is needed to create a release. More details are at the top of the
-[Usage] section.
+Usage section.
 
 ### Updating a Release
 
