@@ -153,3 +153,5 @@ grease help update-release
 Grease is copyright 2017 by Timber Technologies, Inc. and made available under
 the ISC License. See the LICENSE file in the code repository or included in
 distribution archives for full details.
+
+[![Built by Timber.io](https://res.cloudinary.com/timber/image/upload/v1503615886/built_by_timber_wide.png)](https://timber.io/?utm_source=github&utm_campaign=timberio%2Fgrease)
