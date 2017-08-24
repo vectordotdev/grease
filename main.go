@@ -495,27 +495,10 @@ func cmdCreateRelease(ctx *cli.Context) error {
 	}
 
 	if debug {
-		fmt.Println("Will create release with the following settings...")
-		fmt.Printf("Repo: https://github.com/%s/%s\n", repo.Owner, repo.Name)
-		fmt.Printf("Using token: %s\n", gitHubToken)
-		fmt.Printf("Tag: %s\n", release.TagName)
-		fmt.Printf("Tag Commit: %s\n", release.TargetCommitish)
-		fmt.Printf("Release Name/Title: %s\n", release.Name)
-		fmt.Printf("Draft: %t\n", release.Draft)
-		fmt.Printf("Pre-release: %t\n", release.PreRelease)
-		fmt.Println("-----Begin Release Notes-----")
-		fmt.Printf("%s\n", release.Body)
-		fmt.Println("-----End Release Notes-----")
-
-		if len(assets) == 0 {
-			fmt.Println("No assets found to upload")
-		} else {
-			fmt.Println("The following assets will be uploaded:")
-			for _, assetPath := range assets {
-				filename := path.Base(assetPath)
-				fmt.Printf("\t%s as %s\n", assetPath, filename)
-			}
-		}
+		fmt.Println("Release Creation Settings")
+		fmt.Println("=========================")
+		printRepoDebugStatements(repo)
+		printReleaseDebugStatements(release)
 	}
 
 	if dry {
@@ -601,26 +584,10 @@ func cmdUpdateRelease(ctx *cli.Context) error {
 	}
 
 	if debug {
-		fmt.Println("Will update release with the following settings...")
-		fmt.Printf("Repo: https://github.com/%s/%s\n", repo.Owner, repo.Name)
-		fmt.Printf("Using token: %s\n", gitHubToken)
-		fmt.Printf("Tag: %s\n", release.TagName)
-		fmt.Printf("Release Name/Title: %s\n", release.Name)
-		fmt.Printf("Draft: %t\n", release.Draft)
-		fmt.Printf("Pre-release: %t\n", release.PreRelease)
-		fmt.Println("-----Begin Release Notes-----")
-		fmt.Printf("%s\n", release.Body)
-		fmt.Println("-----End Release Notes-----")
-
-		if len(assets) == 0 {
-			fmt.Println("No assets found to upload")
-		} else {
-			fmt.Println("The following assets will be uploaded:")
-			for _, assetPath := range assets {
-				filename := path.Base(assetPath)
-				fmt.Printf("\t%s as %s\n", assetPath, filename)
-			}
-		}
+		fmt.Println("Release Update Settings")
+		fmt.Println("=========================")
+		printRepoDebugStatements(repo)
+		printReleaseDebugStatements(release)
 	}
 
 	if dry {
@@ -699,19 +666,11 @@ func cmdUploadArtifacts(ctx *cli.Context) error {
 	}
 
 	if debug {
-		fmt.Println("Uploading assets with the following settings...")
-		fmt.Printf("Repo: https://github.com/%s/%s\n", repo.Owner, repo.Name)
-		fmt.Printf("Using token: %s\n", gitHubToken)
-		fmt.Printf("Tag: %s\n", tagName)
-		if len(assets) == 0 {
-			fmt.Println("No assets found to upload")
-		} else {
-			fmt.Println("The following assets will be uploaded:")
-			for _, assetPath := range assets {
-				filename := path.Base(assetPath)
-				fmt.Printf("\t%s as %s\n", assetPath, filename)
-			}
-		}
+		fmt.Println("Asset Upload Settings")
+		fmt.Println("=====================")
+		printRepoDebugStatements(repo)
+		fmt.Printf("Tag:\t\t\t%s\n", tagName)
+		printAssetDebugStatements(assets)
 	}
 
 	if dry {
@@ -769,6 +728,35 @@ func cmdListFiles(ctx *cli.Context) error {
 	}
 
 	return nil
+}
+
+func printRepoDebugStatements(repo *gitHubRepo) {
+	fmt.Printf("Repo:\t\t\thttps://github.com/%s/%s\n", repo.Owner, repo.Name)
+}
+
+func printReleaseDebugStatements(release *gitHubRelease) {
+	fmt.Printf("Tag:\t\t\t%s\n", *release.TagName)
+	if release.TargetCommitish != nil {
+		fmt.Printf("Tag Commit:\t\t%s\n", *release.TargetCommitish)
+	}
+	fmt.Printf("Release Name/Title:\t%s\n", *release.Name)
+	fmt.Printf("Draft:\t\t\t%t\n", *release.Draft)
+	fmt.Printf("Pre-release:\t\t%t\n", *release.PreRelease)
+	fmt.Println("-----Begin Release Notes-----")
+	fmt.Printf("%s\n", *release.Body)
+	fmt.Println("------End Release Notes------")
+}
+
+func printAssetDebugStatements(assets []string) {
+	if len(assets) == 0 {
+		fmt.Println("No assets found to upload")
+	} else {
+		fmt.Println("The following assets will be uploaded:")
+		for _, assetPath := range assets {
+			filename := path.Base(assetPath)
+			fmt.Printf("\t- %s as %s\n", assetPath, filename)
+		}
+	}
 }
 
 func splitRepositoryName(name string) (owner string, repo string, e error) {
