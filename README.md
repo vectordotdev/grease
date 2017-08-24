@@ -45,7 +45,7 @@ three positional arguments: the repository name, the tag name, and the
 the tag should be created from.
 
 ```shell
-grease create-release timberio/grease v1.0.0 ccc471
+grease create-release timberio/grease v1.0.0 566e0e80a473581d05bcdf8a0cddad97ea2fc6c2
 ```
 
 In addition to these, you can modify the release information using additional
