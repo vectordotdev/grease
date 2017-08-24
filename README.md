@@ -1,5 +1,7 @@
 # Grease
 
+[![GitHub release](https://img.shields.io/github/release/timberio/grease.svg)](https://github.com/timberio/grease/releases/latest) [![license](https://img.shields.io/github/license/timberio/grease.svg)](https://github.com/timberio/grease/blob/master/LICENSE) [![Github All Releases](https://img.shields.io/github/downloads/timberio/grease/total.svg)](https://github.com/timberio/grease/releases) [![CircleCI](https://img.shields.io/circleci/project/github/timberio/grease.svg)](https://circleci.com/gh/timberio/grease/tree/master)
+
 Grease is a utility from Timber.io for creating and maintaining Github
 releases. It is designed to be used in automated settings, like a CI
 server.
