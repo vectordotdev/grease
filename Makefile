@@ -68,7 +68,7 @@ release: dist
 	commit=$(git rev-list -n 1 $$tag); \
 	name=$$(git show -s $$tag --pretty=tformat:%N | sed -e '4q;d'); \
 	changelog=$$(git show -s $$tag --pretty=tformat:%N | sed -e '1,5d'); \
-	grease create-release --name $$name --notes $$changelog $(github_repo) $$tag $$commit
+	grease create-release --name "$$name" --notes "$$changelog" $(github_repo) "$$tag" "$$commit"
 
 .PHONY: get-tools
 get-tools:
